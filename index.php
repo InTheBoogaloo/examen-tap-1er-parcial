@@ -13,18 +13,14 @@ try {
     $fullPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $method   = $_SERVER['REQUEST_METHOD'];
 
-    // Quitar el directorio base (p.ej. /examen1) para que las rutas
-    // funcionen igual sin importar en qué carpeta esté el proyecto
     $scriptDir = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
     $path      = '/' . ltrim(substr($fullPath, strlen($scriptDir)), '/');
 
-    // Quitar index.php cuando se accede sin mod_rewrite
     $path = preg_replace('#^/index\.php#', '', $path);
     if ($path === '' || $path === false) {
         $path = '/';
     }
 
-    // Ruta raiz: info de uso
     if ($path === '/') {
         echo json_encode([
             'api'       => 'Password Generator API',
